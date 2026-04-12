@@ -384,6 +384,23 @@ p {
   padding: 14px 16px 18px;
 }
 
+.plant-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.plant-card__meta span {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(29, 43, 32, 0.08);
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
 .latin {
   margin-top: 8px;
   font-style: italic;
@@ -438,6 +455,56 @@ p {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
+}
+
+.voice-card--stack {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.voice-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.voice-status {
+  color: var(--green);
+  font-size: 0.92rem;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.quick-card {
+  padding: 16px 18px;
+  border-radius: 22px;
+  background: rgba(255, 250, 244, 0.78);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+}
+
+.quick-card span {
+  display: block;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.quick-card strong {
+  display: block;
+  margin-top: 8px;
+  font-size: 1.02rem;
+  line-height: 1.45;
+}
+
+.content-card--lead p {
+  font-size: 1.02rem;
+  line-height: 1.9;
 }
 
 .care-list {
@@ -511,11 +578,16 @@ p {
     align-items: end;
   }
 
+  .quick-grid,
   .family-grid,
   .plant-grid,
   .genus-list,
   .gallery-grid,
   .two-column {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .quick-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

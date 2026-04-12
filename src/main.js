@@ -34,6 +34,9 @@ function createPlant({
   substrate,
   people,
   audioText,
+  difficulty = '中等',
+  placement = '客厅或书房的明亮散射光位置',
+  summary = '适合做室内观叶陈列的热带植物。',
   faq = defaultFaq,
 }) {
   return {
@@ -54,6 +57,9 @@ function createPlant({
     people,
     faq,
     audioText,
+    difficulty,
+    placement,
+    summary,
   }
 }
 
@@ -651,6 +657,10 @@ function createPlantCard(plant) {
         <h3>${plant.nameCn}</h3>
         <p class="latin">${plant.nameLatin}</p>
         <p>${plant.headline}</p>
+        <div class="plant-card__meta">
+          <span>难度：${plant.difficulty}</span>
+          <span>位置：${plant.placement}</span>
+        </div>
       </div>
     </a>
   `
@@ -792,22 +802,41 @@ function plantView(plant) {
       </section>
 
       <section class="section section--compact">
-        <div class="voice-card">
-          <div>
-            <div class="eyebrow">Audio Guide</div>
-            <h2>语音介绍</h2>
-            <p>点击播放，直接听这株植物的简明介绍。</p>
-          </div>
-          <button class="button button--primary" id="speak-btn" data-audio="${encodeURIComponent(
-            plant.audioText,
-          )}">
-            播放语音
-          </button>
+        <div class="quick-grid">
+          <article class="quick-card">
+            <span>一句话概览</span>
+            <strong>${plant.summary}</strong>
+          </article>
+          <article class="quick-card">
+            <span>养护难度</span>
+            <strong>${plant.difficulty}</strong>
+          </article>
+          <article class="quick-card">
+            <span>推荐摆放</span>
+            <strong>${plant.placement}</strong>
+          </article>
         </div>
       </section>
 
       <section class="section section--compact">
-        <article class="content-card">
+        <div class="voice-card voice-card--stack">
+          <div>
+            <div class="eyebrow">Audio Guide</div>
+            <h2>语音介绍</h2>
+            <p>点击播放，直接听这株植物的简明介绍。再次点击会停止播放。</p>
+          </div>
+          <div class="voice-actions">
+            <button class="button button--primary" id="speak-btn" data-audio="${encodeURIComponent(
+              plant.audioText,
+            )}">▶ 播放语音</button>
+            <button class="button button--ghost" id="stop-btn">■ 停止</button>
+          </div>
+          <p class="voice-status" id="voice-status">未播放</p>
+        </div>
+      </section>
+
+      <section class="section section--compact">
+        <article class="content-card content-card--lead">
           <div class="eyebrow">Overview</div>
           <h2>植物介绍</h2>
           <p>${plant.description}</p>
@@ -830,7 +859,13 @@ function plantView(plant) {
           <div class="eyebrow">Good For</div>
           <h2>适合人群</h2>
           <p>${plant.people}</p>
-          <div class="eyebrow eyebrow--spaced">FAQ</div>
+        </article>
+      </section>
+
+      <section class="section section--compact">
+        <article class="content-card">
+          <div class="eyebrow">FAQ</div>
+          <h2>常见问题</h2>
           <div class="faq-list">
             ${plant.faq
               .map(
@@ -883,22 +918,65 @@ function notFoundView() {
 }
 
 function attachSpeech() {
-  const button = document.querySelector('#speak-btn')
-  if (!button) return
+  const playButton = document.querySelector('#speak-btn')
+  const stopButton = document.querySelector('#stop-btn')
+  const status = document.querySelector('#voice-status')
+  if (!playButton || !stopButton || !status) return
 
-  button.addEventListener('click', () => {
-    const text = decodeURIComponent(button.dataset.audio || '')
-    if (!('speechSynthesis' in window)) {
-      window.alert('当前浏览器不支持语音播放，可后续接入真实音频文件。')
+  const hasSpeech = 'speechSynthesis' in window
+  if (!hasSpeech) {
+    status.textContent = '当前浏览器不支持语音播放'
+    playButton.disabled = true
+    stopButton.disabled = true
+    return
+  }
+
+  let isPlaying = false
+  let utterance = null
+
+  const setStatus = (text) => {
+    status.textContent = text
+  }
+
+  playButton.addEventListener('click', () => {
+    const text = decodeURIComponent(playButton.dataset.audio || '')
+
+    if (isPlaying) {
+      window.speechSynthesis.cancel()
+      isPlaying = false
+      setStatus('已停止')
       return
     }
 
     window.speechSynthesis.cancel()
-    const utterance = new SpeechSynthesisUtterance(text)
+    utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'zh-CN'
     utterance.rate = 1
     utterance.pitch = 1
+    utterance.onstart = () => {
+      isPlaying = true
+      setStatus('播放中…')
+      playButton.textContent = '⏸ 停止语音'
+    }
+    utterance.onend = () => {
+      isPlaying = false
+      setStatus('播放完成')
+      playButton.textContent = '▶ 播放语音'
+    }
+    utterance.onerror = () => {
+      isPlaying = false
+      setStatus('语音播放失败')
+      playButton.textContent = '▶ 播放语音'
+    }
+
     window.speechSynthesis.speak(utterance)
+  })
+
+  stopButton.addEventListener('click', () => {
+    window.speechSynthesis.cancel()
+    isPlaying = false
+    setStatus('已停止')
+    playButton.textContent = '▶ 播放语音'
   })
 }
 
