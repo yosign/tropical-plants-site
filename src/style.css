@@ -13,9 +13,7 @@
   --secondary-foreground: #27372d;
   --shadow: 0 24px 80px rgba(58, 68, 54, 0.12);
   --shadow-soft: 0 16px 40px rgba(58, 68, 54, 0.08);
-  --radius-xl: 28px;
-  --radius-lg: 22px;
-  --radius-md: 18px;
+  --radius: 0px;
   --container: 780px;
 }
 
@@ -162,34 +160,33 @@ body {
 
 .shell-card {
   background: var(--panel-strong);
-  border-radius: var(--radius-lg);
-  padding: 24px;
+  border-radius: 0;
+  padding: 20px;
   box-shadow: var(--shadow-soft);
+  border: 1px solid var(--line);
 }
 
-/* shadcn card component overrides */
-.shell-card > * {
+/* Remove all card default padding */
+[class*="card"] > * {
   padding: 0 !important;
 }
 
-/* Content cards with section headers */
+/* Content cards: direct children only */
 .content-card {
+  background: var(--panel);
   padding: 20px !important;
+  border-radius: 0 !important;
+  border: 1px solid var(--line) !important;
 }
 
-.content-card > * {
-  padding: 0 !important;
+.content-card > .section-header {
+  margin-bottom: 14px !important;
+}
+
+.content-card > .body-copy,
+.content-card > .care-list,
+.content-card > .w-full {
   margin: 0 !important;
-}
-
-.content-card .section-header {
-  margin-bottom: 16px !important;
-}
-
-.content-card .body-copy,
-.content-card .care-list,
-.content-card .accordion {
-  margin-top: 0 !important;
 }
 
 .is-clickable {
@@ -244,9 +241,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  padding: 18px;
+  padding: 16px !important;
   background: var(--panel);
-  border-radius: var(--radius-md);
+  border-radius: 0 !important;
+  border: 1px solid var(--line) !important;
 }
 
 .stat-card span {
@@ -301,7 +299,7 @@ body {
   width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  border-radius: var(--radius-md);
+  border-radius: 0;
   background: rgba(210, 230, 220, 0.42);
 }
 
@@ -347,7 +345,7 @@ body {
 .plant-hero-media {
   width: 100%;
   aspect-ratio: 1;
-  border-radius: var(--radius-md);
+  border-radius: 0;
   overflow: hidden;
   background: rgba(210, 230, 220, 0.42);
 }
@@ -398,9 +396,10 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  padding: 12px 14px;
+  padding: 12px;
   background: rgba(255, 255, 255, 0.68);
-  border-radius: var(--radius-md);
+  border-radius: 0;
+  border: 1px solid var(--line);
 }
 
 .care-list strong {

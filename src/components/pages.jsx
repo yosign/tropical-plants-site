@@ -31,10 +31,8 @@ function SectionHeader({ badgeLabel, title, description }) {
 function StatCard({ label, value }) {
   return (
     <Card className="stat-card">
-      <CardContent>
-        <span>{label}</span>
-        <strong>{value}</strong>
-      </CardContent>
+      <span>{label}</span>
+      <strong>{value}</strong>
     </Card>
   )
 }
