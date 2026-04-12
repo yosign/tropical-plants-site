@@ -322,8 +322,8 @@ section {
 }
 
 .voice-fab-btn {
-  width: 56px !important;
-  height: 56px !important;
+  width: 64px !important;
+  height: 64px !important;
   background: var(--primary) !important;
   color: var(--primary-foreground) !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
@@ -340,7 +340,7 @@ section {
 }
 
 .voice-icon {
-  font-size: 20px;
+  font-size: 24px;
 }
 
 .voice-tooltip {
@@ -372,12 +372,12 @@ section {
   }
   
   .voice-fab-btn {
-    width: 50px !important;
-    height: 50px !important;
+    width: 56px !important;
+    height: 56px !important;
   }
   
   .voice-icon {
-    font-size: 18px;
+    font-size: 20px;
   }
 }
 
