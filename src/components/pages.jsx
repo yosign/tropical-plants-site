@@ -63,7 +63,7 @@ function useSpeech(text) {
   const [status, setStatus] = useState('未播放')
   const [isSupported, setIsSupported] = useState(true)
   const [isPlaying, setIsPlaying] = useState(false)
-  const utteranceRef = useRef(null)
+  const isCancellingRef = useRef(false)
 
   useEffect(() => {
     const supported = 'speechSynthesis' in window
@@ -74,11 +74,13 @@ function useSpeech(text) {
   const play = () => {
     if (!isSupported) return
     if (isPlaying) {
+      isCancellingRef.current = true
       window.speechSynthesis.cancel()
       setIsPlaying(false)
       setStatus('已停止')
       return
     }
+    isCancellingRef.current = false
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'zh-CN'
     utterance.rate = 1
@@ -88,20 +90,24 @@ function useSpeech(text) {
       setStatus('播放中…')
     }
     utterance.onend = () => {
-      setIsPlaying(false)
-      setStatus('播放完成')
+      if (!isCancellingRef.current) {
+        setIsPlaying(false)
+        setStatus('播放完成')
+      }
     }
-    utterance.onerror = () => {
-      setIsPlaying(false)
-      setStatus('语音播放失败')
+    utterance.onerror = (event) => {
+      if (!isCancellingRef.current) {
+        setIsPlaying(false)
+        setStatus('语音播放失败')
+      }
     }
-    utteranceRef.current = utterance
     window.speechSynthesis.cancel()
     window.speechSynthesis.speak(utterance)
   }
 
   const stop = () => {
     if (!isSupported) return
+    isCancellingRef.current = true
     window.speechSynthesis.cancel()
     setIsPlaying(false)
     setStatus('已停止')
