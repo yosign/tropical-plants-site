@@ -6,61 +6,85 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator'
 import { plantFamilies, allPlants } from '@/data/plants'
 
-function useSpeech(text) {
-  const [status, setStatus] = useState('未播放')
-  const [isSupported, setIsSupported] = useState(true)
+function VoicePlayer({ text }) {
   const [isPlaying, setIsPlaying] = useState(false)
+  const [isSupported, setIsSupported] = useState(true)
   const isCancellingRef = useRef(false)
 
   useEffect(() => {
     const supported = 'speechSynthesis' in window
     setIsSupported(supported)
-    if (!supported) setStatus('当前浏览器不支持语音播放')
   }, [])
 
-  const play = () => {
+  const togglePlay = () => {
     if (!isSupported) return
+    
     if (isPlaying) {
       isCancellingRef.current = true
       window.speechSynthesis.cancel()
       setIsPlaying(false)
-      setStatus('已停止')
       return
     }
+    
     isCancellingRef.current = false
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'zh-CN'
     utterance.rate = 1
     utterance.pitch = 1
-    utterance.onstart = () => {
-      setIsPlaying(true)
-      setStatus('播放中…')
-    }
+    
+    utterance.onstart = () => setIsPlaying(true)
     utterance.onend = () => {
-      if (!isCancellingRef.current) {
-        setIsPlaying(false)
-        setStatus('播放完成')
-      }
+      if (!isCancellingRef.current) setIsPlaying(false)
     }
-    utterance.onerror = (event) => {
-      if (!isCancellingRef.current) {
-        setIsPlaying(false)
-        setStatus('语音播放失败')
-      }
+    utterance.onerror = () => {
+      if (!isCancellingRef.current) setIsPlaying(false)
     }
+    
     window.speechSynthesis.cancel()
     window.speechSynthesis.speak(utterance)
   }
 
-  const stop = () => {
-    if (!isSupported) return
-    isCancellingRef.current = true
-    window.speechSynthesis.cancel()
-    setIsPlaying(false)
-    setStatus('已停止')
+  if (!isSupported) {
+    return (
+      <Card>
+        <CardHeader>
+          <CardTitle>语音介绍</CardTitle>
+          <CardDescription>当前浏览器不支持语音播放</CardDescription>
+        </CardHeader>
+      </Card>
+    )
   }
 
-  return { status, isSupported, isPlaying, play, stop }
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>语音介绍</CardTitle>
+        <CardDescription>点击播放按钮听这株植物的简明介绍</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="voice-player">
+          <Button
+            size="lg"
+            variant={isPlaying ? "secondary" : "default"}
+            onClick={togglePlay}
+            className="voice-player-btn"
+          >
+            {isPlaying ? (
+              <>
+                <span className="voice-icon">⏸</span>
+                <span>正在播放</span>
+              </>
+            ) : (
+              <>
+                <span className="voice-icon">▶</span>
+                <span>播放语音</span>
+              </>
+            )}
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  )
 }
 
 export function HomePage({ navigate }) {
@@ -223,8 +247,6 @@ export function FamilyPage({ navigate, family }) {
 }
 
 export function PlantPage({ navigate, plant }) {
-  const speech = useSpeech(plant.audioText)
-
   return (
     <main className="page">
       <header className="site-header">
@@ -272,19 +294,7 @@ export function PlantPage({ navigate, plant }) {
         </Card>
       </div>
 
-      <div className="voice-fab">
-        <Button 
-          size="icon" 
-          className="voice-fab-button" 
-          onClick={speech.play}
-          title={speech.isPlaying ? '停止语音' : '播放语音介绍'}
-        >
-          {speech.isPlaying ? '⏸' : '▶'}
-        </Button>
-        {speech.status !== '未播放' && (
-          <span className="voice-fab-status">{speech.status}</span>
-        )}
-      </div>
+      <VoicePlayer text={plant.audioText} />
 
       <Card>
         <CardHeader>
