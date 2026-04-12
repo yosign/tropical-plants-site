@@ -9,6 +9,7 @@ import { plantFamilies, allPlants } from '@/data/plants'
 function VoicePlayer({ text }) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isSupported, setIsSupported] = useState(true)
+  const [showTooltip, setShowTooltip] = useState(false)
   const isCancellingRef = useRef(false)
 
   useEffect(() => {
@@ -32,58 +33,47 @@ function VoicePlayer({ text }) {
     utterance.rate = 1
     utterance.pitch = 1
     
-    utterance.onstart = () => setIsPlaying(true)
+    utterance.onstart = () => {
+      setIsPlaying(true)
+      setShowTooltip(true)
+    }
     utterance.onend = () => {
-      if (!isCancellingRef.current) setIsPlaying(false)
+      if (!isCancellingRef.current) {
+        setIsPlaying(false)
+        setShowTooltip(false)
+      }
     }
     utterance.onerror = () => {
-      if (!isCancellingRef.current) setIsPlaying(false)
+      if (!isCancellingRef.current) {
+        setIsPlaying(false)
+        setShowTooltip(false)
+      }
     }
     
     window.speechSynthesis.cancel()
     window.speechSynthesis.speak(utterance)
   }
 
-  if (!isSupported) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>语音介绍</CardTitle>
-          <CardDescription>当前浏览器不支持语音播放</CardDescription>
-        </CardHeader>
-      </Card>
-    )
-  }
+  if (!isSupported) return null
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>语音介绍</CardTitle>
-        <CardDescription>点击播放按钮听这株植物的简明介绍</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <div className="voice-player">
-          <Button
-            size="lg"
-            variant={isPlaying ? "secondary" : "default"}
-            onClick={togglePlay}
-            className="voice-player-btn"
-          >
-            {isPlaying ? (
-              <>
-                <span className="voice-icon">⏸</span>
-                <span>正在播放</span>
-              </>
-            ) : (
-              <>
-                <span className="voice-icon">▶</span>
-                <span>播放语音</span>
-              </>
-            )}
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="voice-fab">
+      <Button
+        size="icon"
+        onClick={togglePlay}
+        className="voice-fab-btn"
+        title={isPlaying ? '正在播放，点击停止' : '播放语音介绍'}
+      >
+        {isPlaying ? (
+          <span className="voice-icon">⏸</span>
+        ) : (
+          <span className="voice-icon">▶</span>
+        )}
+      </Button>
+      {showTooltip && isPlaying && (
+        <div className="voice-tooltip">正在播放</div>
+      )}
+    </div>
   )
 }
 
