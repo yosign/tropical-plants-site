@@ -227,20 +227,19 @@ export function PlantPage({ navigate, plant }) {
         <StatCard label="推荐摆放" value={plant.placement} />
       </section>
 
-      <section className="section-block">
-        <Card className="voice-card voice-card--clean">
-          <CardHeader>
-            <SectionHeader badgeLabel="Audio Guide" title="语音介绍" description="点击播放后可以直接听这株植物的简明介绍。" />
-          </CardHeader>
-          <CardContent>
-            <div className="voice-actions">
-              <Button onClick={speech.play}>{speech.isPlaying ? '⏸ 停止语音' : '▶ 播放语音'}</Button>
-              <Button variant="secondary" onClick={speech.stop}>■ 停止</Button>
-            </div>
-            <p className="voice-status">{speech.status}</p>
-          </CardContent>
-        </Card>
-      </section>
+      <div className="voice-fab">
+        <Button 
+          size="icon" 
+          className="voice-fab__button" 
+          onClick={speech.play}
+          title={speech.isPlaying ? '停止语音' : '播放语音介绍'}
+        >
+          {speech.isPlaying ? '⏸' : '▶'}
+        </Button>
+        {speech.status !== '未播放' && (
+          <span className="voice-fab__status">{speech.status}</span>
+        )}
+      </div>
 
       <section className="section-block">
         <Card className="content-card">
