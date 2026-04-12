@@ -49,6 +49,44 @@ body {
   cursor: pointer;
 }
 
+.site-header {
+  margin-bottom: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-link {
+  transition: opacity 0.2s;
+}
+
+.brand-link:hover {
+  opacity: 0.7;
+}
+
+.brand-name {
+  font-family: Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  font-style: italic;
+  color: var(--primary);
+  letter-spacing: 0.5px;
+}
+
+.brand-divider {
+  color: var(--line);
+  font-size: 18px;
+}
+
+.brand-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  font-weight: 500;
+}
+
 .back-link {
   display: inline-block;
   color: var(--muted);

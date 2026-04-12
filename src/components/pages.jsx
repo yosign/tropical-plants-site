@@ -119,6 +119,13 @@ function useSpeech(text) {
 export function HomePage({ navigate }) {
   return (
     <main className="page page--home">
+      <header className="site-header">
+        <div className="brand">
+          <span className="brand-name">vivilimo</span>
+          <span className="brand-divider">/</span>
+          <span className="brand-subtitle">热植图鉴</span>
+        </div>
+      </header>
       <section className="hero-shell shell-card">
         <div className="hero-copy">
           <Badge>Pocket Tropical Plant Atlas</Badge>
@@ -173,6 +180,13 @@ export function FamilyPage({ navigate, family }) {
 
   return (
     <main className="page">
+      <header className="site-header">
+        <button className="brand brand-link button-reset" onClick={() => navigate('/')}>
+          <span className="brand-name">vivilimo</span>
+          <span className="brand-divider">/</span>
+          <span className="brand-subtitle">热植图鉴</span>
+        </button>
+      </header>
       <section className="page-head shell-card">
         <button className="back-link button-reset" onClick={() => navigate('/')}>← 返回首页</button>
         <div className="section-header section-header--tight">
@@ -216,6 +230,13 @@ export function PlantPage({ navigate, plant }) {
 
   return (
     <main className="page page--plant">
+      <header className="site-header">
+        <button className="brand brand-link button-reset" onClick={() => navigate('/')}>
+          <span className="brand-name">vivilimo</span>
+          <span className="brand-divider">/</span>
+          <span className="brand-subtitle">热植图鉴</span>
+        </button>
+      </header>
       <section className="plant-hero-card shell-card">
         <div className="plant-hero-media"><img src={plant.cover} alt={plant.nameCn} className="plant-hero-image" /></div>
         <div className="plant-hero-copy">
