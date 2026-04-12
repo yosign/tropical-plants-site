@@ -18,12 +18,20 @@ const plantImagePool = {
 }
 
 function createPlant(config) {
+  const { light, water, humidity, temperature, substrate, ...rest } = config
   return {
     faq: defaultFaq,
     difficulty: '中等',
     placement: '客厅或书房的明亮散射光位置',
     summary: '适合做室内观叶陈列的热带植物。',
-    ...config,
+    ...rest,
+    care: {
+      light: light || '明亮散射光',
+      water: water || '土表干后浇透',
+      humidity: humidity || '中高湿度',
+      temperature: temperature || '18-28°C',
+      substrate: substrate || '透气性好的基质',
+    },
     images: config.images?.length ? config.images : [config.cover],
   }
 }
