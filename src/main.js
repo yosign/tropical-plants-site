@@ -11,6 +11,14 @@ const defaultFaq = [
   }
 ]
 
+const plantImagePool = {
+  lushCanopy: '/plants/lush-canopy.svg',
+  velvetLeaf: '/plants/velvet-leaf.svg',
+  stripedLeaf: '/plants/striped-leaf.svg',
+  sculpturalLeaf: '/plants/sculptural-leaf.svg',
+  variegatedLeaf: '/plants/variegated-leaf.svg'
+}
+
 function createPlant({
   slug,
   nameCn,
@@ -68,12 +76,8 @@ const plantFamilies = [
             slug: 'monstera-deliciosa',
             nameCn: '龟背竹',
             nameLatin: 'Monstera deliciosa',
-            cover:
-              'https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=1200&q=80',
-            images: [
-              'https://images.unsplash.com/photo-1512428813834-c702c7702b78?auto=format&fit=crop&w=1200&q=80',
-              'https://images.unsplash.com/photo-1525498128493-380d1990a112?auto=format&fit=crop&w=1200&q=80'
-            ],
+            cover: plantImagePool.lushCanopy,
+            images: [plantImagePool.lushCanopy, plantImagePool.sculpturalLeaf],
             headline: '大型裂叶，自带空间气场的经典热植。',
             description:
               '龟背竹是室内热带植物中最具代表性的品种之一。成熟叶片会逐渐出现深裂和穿孔，随着株龄增长，观赏性会越来越强。它既能做客厅主景，也适合和木质家具、自然风空间搭配。',
@@ -101,8 +105,8 @@ const plantFamilies = [
             slug: 'monstera-adansonii',
             nameCn: '仙洞龟背竹',
             nameLatin: 'Monstera adansonii',
-            cover:
-              'https://images.unsplash.com/photo-1620127252536-2ebd6c1f8f71?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.sculpturalLeaf,
+            images: [plantImagePool.sculpturalLeaf],
             headline: '孔洞感更强，线条更轻盈的藤本型龟背竹。',
             description:
               '仙洞龟背竹比龟背竹更轻盈，也更适合做垂吊或爬藤造型。它的叶面孔洞更早出现，整体气质更灵动，特别适合小空间做层次点缀。',
@@ -125,8 +129,8 @@ const plantFamilies = [
             slug: 'monstera-standleyana-albo',
             nameCn: '白锦龟背竹蔓绿绒',
             nameLatin: 'Monstera standleyana Albo Variegata',
-            cover:
-              'https://images.unsplash.com/photo-1632207691143-643e2a79b5be?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.variegatedLeaf,
+            images: [plantImagePool.variegatedLeaf],
             headline: '斑锦叶片清爽利落，适合做轻奢感点缀。',
             description:
               '这类斑锦型龟背竹叶片相对修长，白色斑纹分布不规则，既有观叶热植的存在感，也比大型裂叶植物更节制。',
@@ -152,8 +156,8 @@ const plantFamilies = [
             slug: 'anthurium-warocqueanum',
             nameCn: '皇后花烛',
             nameLatin: 'Anthurium warocqueanum',
-            cover:
-              'https://images.unsplash.com/photo-1586802978403-6406fb3ddfff?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.velvetLeaf,
+            images: [plantImagePool.velvetLeaf],
             headline: '长叶天鹅绒质感，是很多观叶玩家的梦中情草。',
             description:
               '皇后花烛最迷人的地方，在于它夸张的狭长叶片和强烈的丝绒反光。它的美很高级，但养护条件也更挑剔，对湿度、通风和根系状态都比较敏感。',
@@ -176,8 +180,8 @@ const plantFamilies = [
             slug: 'anthurium-crystallinum',
             nameCn: '水晶花烛',
             nameLatin: 'Anthurium crystallinum',
-            cover:
-              'https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.velvetLeaf,
+            images: [plantImagePool.velvetLeaf, plantImagePool.lushCanopy],
             headline: '心形叶配银白叶脉，是观叶花烛里的高辨识度代表。',
             description:
               '水晶花烛的叶片更偏心形，叶脉对比强烈，兼具天鹅绒质感和热带感，是很多人入门观叶花烛的第一站。',
@@ -194,8 +198,8 @@ const plantFamilies = [
             slug: 'anthurium-clarinervium',
             nameCn: '白脉花烛',
             nameLatin: 'Anthurium clarinervium',
-            cover:
-              'https://images.unsplash.com/photo-1598880940080-ff9a29891b85?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.velvetLeaf,
+            images: [plantImagePool.velvetLeaf],
             headline: '叶片更厚，白脉更硬朗，气质沉稳利落。',
             description:
               '白脉花烛相比水晶花烛更厚实，叶型更紧凑，白色主脉更像被描边，整体观感更雕塑化。',
@@ -212,8 +216,8 @@ const plantFamilies = [
             slug: 'anthurium-veitchii',
             nameCn: '国王花烛',
             nameLatin: 'Anthurium veitchii',
-            cover:
-              'https://images.unsplash.com/photo-1601985705806-5b9a71f6004f?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.sculpturalLeaf,
+            images: [plantImagePool.sculpturalLeaf],
             headline: '褶皱叶面非常夸张，是空间感很强的展示型植物。',
             description:
               '国王花烛最大的特点是纵向褶皱的长叶，成熟后非常有雕塑感，适合做高级感观叶陈列。',
@@ -238,8 +242,8 @@ const plantFamilies = [
             slug: 'philodendron-gloriosum',
             nameCn: '荣耀喜林芋',
             nameLatin: 'Philodendron gloriosum',
-            cover:
-              'https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.velvetLeaf,
+            images: [plantImagePool.velvetLeaf],
             headline: '趴地型大心叶，丝绒感和白脉并存。',
             description:
               '荣耀喜林芋以大尺寸心形丝绒叶著称，叶脉清晰，整体存在感很强。它不是向上攀援，而是沿着盆面横向生长。',
@@ -256,8 +260,8 @@ const plantFamilies = [
             slug: 'philodendron-micans',
             nameCn: '绒叶蔓绿绒',
             nameLatin: 'Philodendron hederaceum var. hederaceum',
-            cover:
-              'https://images.unsplash.com/photo-1637967887999-f6b65d2f7f0d?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.velvetLeaf,
+            images: [plantImagePool.velvetLeaf],
             headline: '细小绒叶带铜色反光，适合做垂吊层次。',
             description:
               '绒叶蔓绿绒叶片不大，但丝绒反光很细腻，挂起来很柔和，适合和大型植物搭配出高低层次。',
@@ -274,8 +278,8 @@ const plantFamilies = [
             slug: 'philodendron-billietiae',
             nameCn: '橙柄喜林芋',
             nameLatin: 'Philodendron billietiae',
-            cover:
-              'https://images.unsplash.com/photo-1622383563227-04401ab4e5ea?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.sculpturalLeaf,
+            images: [plantImagePool.sculpturalLeaf],
             headline: '细长叶搭配醒目橙色叶柄，辨识度很高。',
             description:
               '橙柄喜林芋属于很容易靠结构取胜的品种，叶片狭长舒展，叶柄色彩鲜明，适合现代风空间。',
@@ -292,8 +296,8 @@ const plantFamilies = [
             slug: 'philodendron-pink-princess',
             nameCn: '粉公主蔓绿绒',
             nameLatin: 'Philodendron erubescens Pink Princess',
-            cover:
-              'https://images.unsplash.com/photo-1602923668104-8f6ea6f0f3d5?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.variegatedLeaf,
+            images: [plantImagePool.variegatedLeaf],
             headline: '深色叶面配粉色斑块，是热植圈很强的视觉符号。',
             description:
               '粉公主蔓绿绒兼具深色叶底和粉色斑锦，天然很适合做社交媒体传播型植物，也很容易成为桌面焦点。',
@@ -310,8 +314,8 @@ const plantFamilies = [
             slug: 'philodendron-birkin',
             nameCn: '白锦蔓绿绒',
             nameLatin: 'Philodendron Birkin',
-            cover:
-              'https://images.unsplash.com/photo-1593691531788-8d8c35ed8c48?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.stripedLeaf,
+            images: [plantImagePool.stripedLeaf],
             headline: '深绿叶面带白色细纹，干净、整齐、现代。',
             description:
               'Birkin 的视觉重点是规则的白色条纹，很适合极简和现代家居风格，比很多大型热植更适合小空间。',
@@ -345,8 +349,8 @@ const plantFamilies = [
             slug: 'calathea-ornata',
             nameCn: '白纹肖竹芋',
             nameLatin: 'Calathea ornata',
-            cover:
-              'https://images.unsplash.com/photo-1604762524889-3e2fcc145683?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.stripedLeaf,
+            images: [plantImagePool.stripedLeaf],
             headline: '粉白细线像手绘笔触，是非常典型的精致型热植。',
             description:
               '白纹肖竹芋的重点不是体量，而是纹理。它很适合放在桌面、边几、玄关等近距离观赏的位置。',
@@ -369,8 +373,8 @@ const plantFamilies = [
             slug: 'calathea-makoyana',
             nameCn: '孔雀竹芋',
             nameLatin: 'Calathea makoyana',
-            cover:
-              'https://images.unsplash.com/photo-1592150621744-aca64f48394a?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.stripedLeaf,
+            images: [plantImagePool.stripedLeaf, plantImagePool.lushCanopy],
             headline: '像羽毛和孔雀尾屏一样的叶纹，非常灵动。',
             description:
               '孔雀竹芋的叶纹具有很强装饰感，叶背带紫色调，随着叶片开合会呈现出细腻变化。',
@@ -387,8 +391,8 @@ const plantFamilies = [
             slug: 'calathea-lancifolia',
             nameCn: '剑叶竹芋',
             nameLatin: 'Calathea lancifolia',
-            cover:
-              'https://images.unsplash.com/photo-1598880940080-ff9a29891b85?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.stripedLeaf,
+            images: [plantImagePool.stripedLeaf],
             headline: '长叶波纹感明显，比圆叶竹芋更有动势。',
             description:
               '剑叶竹芋的长条叶面搭配深浅斑纹和紫色叶背，很适合打造带节奏感的绿植角落。',
@@ -405,8 +409,8 @@ const plantFamilies = [
             slug: 'ctenanthe-burle-marxii',
             nameCn: '鱼骨竹芋',
             nameLatin: 'Ctenanthe burle-marxii',
-            cover:
-              'https://images.unsplash.com/photo-1597055181300-e3633a917c9c?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.stripedLeaf,
+            images: [plantImagePool.stripedLeaf],
             headline: '鱼骨状叶纹有很强节奏感，是小空间里的精致选手。',
             description:
               '鱼骨竹芋叶片相对轻盈，纹路清晰，也比一些大型竹芋更适合放在书桌和边柜上。',
@@ -440,8 +444,8 @@ const plantFamilies = [
             slug: 'ficus-lyrata',
             nameCn: '琴叶榕',
             nameLatin: 'Ficus lyrata',
-            cover:
-              'https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.lushCanopy,
+            images: [plantImagePool.lushCanopy],
             headline: '大叶竖向生长，是客厅型室内植物经典。',
             description:
               '琴叶榕因提琴形叶片得名，视觉体量大，适合做空间竖向结构支点。',
@@ -458,8 +462,8 @@ const plantFamilies = [
             slug: 'ficus-elastica-tineke',
             nameCn: '花叶橡皮树',
             nameLatin: 'Ficus elastica Tineke',
-            cover:
-              'https://images.unsplash.com/photo-1600411833115-6f88b9f5e2e5?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.variegatedLeaf,
+            images: [plantImagePool.variegatedLeaf],
             headline: '奶油绿与粉色调斑叶，很适合清爽系家居。',
             description:
               '花叶橡皮树比普通橡皮树更明亮，斑叶让它更适合做浅色空间的植物搭配。',
@@ -476,8 +480,8 @@ const plantFamilies = [
             slug: 'ficus-elastica-burgundy',
             nameCn: '黑金刚橡皮树',
             nameLatin: 'Ficus elastica Burgundy',
-            cover:
-              'https://images.unsplash.com/photo-1597055181300-e3633a917c9c?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.sculpturalLeaf,
+            images: [plantImagePool.sculpturalLeaf],
             headline: '深色厚叶很稳重，适合深色系室内空间。',
             description:
               '黑金刚橡皮树叶片厚实，颜色接近酒红黑色，能够给空间带来更沉稳的重量感。',
@@ -502,7 +506,7 @@ const plantFamilies = [
     heroTone: 'amber',
     genera: [
       {
-        slug: 'alocasia-lookalikes',
+        slug: 'dracaena-sansevieria',
         nameCn: '龙血树与虎尾兰系',
         nameEn: 'Dracaena & Sansevieria',
         intro: '更强调线条和结构，适合作为现代空间里的稳定背景植物。',
@@ -511,8 +515,8 @@ const plantFamilies = [
             slug: 'dracaena-fragrans-massangeana',
             nameCn: '巴西木',
             nameLatin: 'Dracaena fragrans Massangeana',
-            cover:
-              'https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.lushCanopy,
+            images: [plantImagePool.lushCanopy],
             headline: '非常经典的室内大型绿植，存在感稳定。',
             description:
               '巴西木叶片修长下垂，整体气质放松，适合客厅、办公室等需要体量又不想过度张扬的场景。',
@@ -529,8 +533,8 @@ const plantFamilies = [
             slug: 'sansevieria-laurentii',
             nameCn: '金边虎尾兰',
             nameLatin: 'Dracaena trifasciata Laurentii',
-            cover:
-              'https://images.unsplash.com/photo-1593691531788-8d8c35ed8c48?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.stripedLeaf,
+            images: [plantImagePool.stripedLeaf],
             headline: '线条笔直、耐受度高，是非常稳的入门型热植。',
             description:
               '金边虎尾兰几乎是所有室内植物里最稳定的一类，适合光线一般、照料频率不高的空间。',
@@ -547,8 +551,8 @@ const plantFamilies = [
             slug: 'dracaena-marginata',
             nameCn: '红边龙血树',
             nameLatin: 'Dracaena marginata',
-            cover:
-              'https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=1200&q=80',
+            cover: plantImagePool.sculpturalLeaf,
+            images: [plantImagePool.sculpturalLeaf],
             headline: '叶片线性而轻盈，很适合现代空间做轮廓植物。',
             description:
               '红边龙血树体态轻，轮廓感强，比很多大叶植物更适合极简和现代空间。',
@@ -560,6 +564,24 @@ const plantFamilies = [
             people: '适合喜欢线性结构和轻体量植物的人。',
             audioText:
               '红边龙血树的重点在于线条感，它适合现代空间，也比较适合中等维护频率。'
+          }),
+          createPlant({
+            slug: 'sansevieria-moonshine',
+            nameCn: '银脉虎尾兰',
+            nameLatin: 'Dracaena trifasciata Moonshine',
+            cover: plantImagePool.stripedLeaf,
+            images: [plantImagePool.stripedLeaf],
+            headline: '冷灰绿色很干净，适合极简空间。',
+            description:
+              'Moonshine 的银灰色叶面比普通虎尾兰更柔和，能让空间显得更轻，也很适合现代家居陈列。',
+            light: '中高亮度更能保持叶色。',
+            water: '宁干勿湿。',
+            humidity: '普通室内湿度即可。',
+            temperature: '18 到 30°C。',
+            substrate: '必须排水良好。',
+            people: '适合喜欢冷淡配色植物的人。',
+            audioText:
+              '银脉虎尾兰是一种配色很克制的虎尾兰，和极简空间搭配会很好看。'
           })
         ]
       }
@@ -623,7 +645,7 @@ document.addEventListener('click', (event) => {
 function createPlantCard(plant) {
   return `
     <a class="plant-card" href="/${plant.familySlug}/${plant.slug}" data-link>
-      <img src="${plant.cover}" alt="${plant.nameCn}" class="plant-card__image" />
+      <div class="plant-card__media"><img src="${plant.cover}" alt="${plant.nameCn}" class="plant-card__image" /></div>
       <div class="plant-card__body">
         <div class="eyebrow">${plant.familyNameCn} · ${plant.genusNameCn}</div>
         <h3>${plant.nameCn}</h3>
@@ -637,17 +659,23 @@ function createPlantCard(plant) {
 function homeView() {
   return `
     <main class="page page--home">
-      <section class="hero hero--home">
+      <section class="hero hero--home editorial-shell">
+        <div class="hero__texture"></div>
         <div class="hero__content">
-          <div class="eyebrow">Mobile Tropical Plant Library</div>
-          <h1>热植图鉴，一个科属一页，一个品种一个 URL。</h1>
+          <div class="eyebrow">Pocket Tropical Plant Atlas</div>
+          <h1>把热植做成一部可以随手翻阅的口袋植物志。</h1>
           <p class="hero__text">
-            适合手机浏览的热植介绍站。把植物品种、图文说明和语音介绍放进统一结构里，目前已扩展到 ${allPlants.length} 个热植条目。
+            手机端优先的热植介绍站。每个植物一个独立 URL，支持图文与语音浏览。目前已整理 ${allPlants.length} 个热植条目。
           </p>
           <div class="hero__actions">
             <a href="/araceae" data-link class="button button--primary">先看天南星科</a>
             <a href="#families" class="button button--ghost">浏览全部科属</a>
           </div>
+        </div>
+        <div class="hero__aside botanical-note">
+          <span>Field Note</span>
+          <strong>移动端优先</strong>
+          <p>适合收藏、分享、语音浏览，也适合后续做成完整植物资料库。</p>
         </div>
       </section>
 
@@ -657,6 +685,7 @@ function homeView() {
             <div class="eyebrow">Plant Families</div>
             <h2>按科浏览</h2>
           </div>
+          <p class="section-note">先按大的植物气质分组，再进入具体品种页面。</p>
         </div>
         <div class="family-grid">
           ${plantFamilies
@@ -674,12 +703,13 @@ function homeView() {
         </div>
       </section>
 
-      <section class="section section--soft">
+      <section class="section section--soft showcase-strip">
         <div class="section-heading">
           <div>
             <div class="eyebrow">Featured Species</div>
             <h2>精选植物</h2>
           </div>
+          <p class="section-note">先展示一批辨识度高、适合做植物图鉴首页的热植。</p>
         </div>
         <div class="plant-grid">
           ${allPlants.slice(0, 8).map(createPlantCard).join('')}
