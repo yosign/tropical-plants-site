@@ -14,11 +14,6 @@
   --radius: 0;
 }
 
-/* Force remove all rounded corners from all elements */
-* {
-  border-radius: 0 !important;
-}
-
 * {
   box-sizing: border-box;
 }
