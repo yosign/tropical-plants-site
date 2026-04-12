@@ -312,7 +312,7 @@ export function PlantPage({ navigate, plant }) {
         <div className="gallery-grid">
           {plant.images.map((image, index) => (
             <Card key={`${plant.slug}-${index}`} className="gallery-card">
-              <CardContent><img src={image} alt={plant.nameCn} /></CardContent>
+              <img src={image} alt={plant.nameCn} />
             </Card>
           ))}
         </div>

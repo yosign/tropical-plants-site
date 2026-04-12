@@ -123,11 +123,11 @@ body {
 .section-block {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 }
 
 .section-block--tight {
-  gap: 16px;
+  gap: 14px;
 }
 
 .section-header {
@@ -166,26 +166,25 @@ body {
   border: 1px solid var(--line);
 }
 
-/* Remove all card default padding */
+/* Remove all shadcn card default padding */
 [class*="card"] > * {
   padding: 0 !important;
+  margin: 0 !important;
 }
 
-/* Content cards: direct children only */
+/* Content cards: uniform 20px padding */
 .content-card {
   background: var(--panel);
   padding: 20px !important;
   border-radius: 0 !important;
   border: 1px solid var(--line) !important;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.content-card > .section-header {
-  margin-bottom: 14px !important;
-}
-
-.content-card > .body-copy,
-.content-card > .care-list,
-.content-card > .w-full {
+/* Remove gap for direct children */
+.content-card > * {
   margin: 0 !important;
 }
 
@@ -301,12 +300,14 @@ body {
   overflow: hidden;
   border-radius: 0;
   background: rgba(210, 230, 220, 0.42);
+  border: 1px solid var(--line);
 }
 
 .plant-card__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .plant-card__body {
@@ -348,12 +349,14 @@ body {
   border-radius: 0;
   overflow: hidden;
   background: rgba(210, 230, 220, 0.42);
+  border: 1px solid var(--line);
 }
 
 .plant-hero-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .plant-hero-copy {
@@ -442,7 +445,18 @@ body {
 }
 
 .gallery-card {
-  padding: 14px;
+  padding: 0 !important;
+  overflow: hidden;
+  background: rgba(210, 230, 220, 0.42);
+  border: 1px solid var(--line) !important;
+  border-radius: 0 !important;
+}
+
+.gallery-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .empty-state {
