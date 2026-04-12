@@ -19,10 +19,7 @@ function Topline({ items }) {
 function SectionHeader({ badgeLabel, title, description }) {
   return (
     <div className="section-header">
-      <div>
-        <Badge>{badgeLabel}</Badge>
-        <h2>{title}</h2>
-      </div>
+      <h2>{title}</h2>
       {description ? <p>{description}</p> : null}
     </div>
   )
