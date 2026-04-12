@@ -167,18 +167,29 @@ body {
   box-shadow: var(--shadow-soft);
 }
 
-/* shadcn card padding override for consistency */
-.shell-card .card-header,
-.shell-card .card-content {
+/* shadcn card component overrides */
+.shell-card > * {
   padding: 0 !important;
 }
 
-.content-card .card-header {
-  padding: 20px 20px 0 20px !important;
+/* Content cards with section headers */
+.content-card {
+  padding: 20px !important;
 }
 
-.content-card .card-content {
-  padding: 16px 20px 20px 20px !important;
+.content-card > * {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.content-card .section-header {
+  margin-bottom: 16px !important;
+}
+
+.content-card .body-copy,
+.content-card .care-list,
+.content-card .accordion {
+  margin-top: 0 !important;
 }
 
 .is-clickable {
@@ -244,7 +255,7 @@ body {
 }
 
 .stat-card strong {
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 600;
 }
 
@@ -315,15 +326,15 @@ body {
 
 .latin {
   font-style: italic;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--muted);
   margin-top: 4px;
 }
 
 .lead {
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
-  color: var(--text);
+  color: var(--muted);
 }
 
 .plant-hero-card {
@@ -393,12 +404,12 @@ body {
 }
 
 .care-list strong {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
 .care-list span {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--muted);
 }
 

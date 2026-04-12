@@ -270,56 +270,40 @@ export function PlantPage({ navigate, plant }) {
 
       <section className="section-block">
         <Card className="content-card">
-          <CardHeader>
-            <SectionHeader badgeLabel="Overview" title="植物介绍" />
-          </CardHeader>
-          <CardContent>
-            <p className="body-copy">{plant.description}</p>
-          </CardContent>
+          <SectionHeader badgeLabel="Overview" title="植物介绍" />
+          <p className="body-copy">{plant.description}</p>
         </Card>
       </section>
 
       <section className="section-block two-column">
         <Card className="content-card">
-          <CardHeader>
-            <SectionHeader badgeLabel="Care" title="养护要点" />
-          </CardHeader>
-          <CardContent>
-            <ul className="care-list">
-              <li><strong>光照</strong><span>{plant.care.light}</span></li>
-              <li><strong>浇水</strong><span>{plant.care.water}</span></li>
-              <li><strong>湿度</strong><span>{plant.care.humidity}</span></li>
-              <li><strong>温度</strong><span>{plant.care.temperature}</span></li>
-              <li><strong>基质</strong><span>{plant.care.substrate}</span></li>
-            </ul>
-          </CardContent>
+          <SectionHeader badgeLabel="Care" title="养护要点" />
+          <ul className="care-list">
+            <li><strong>光照</strong><span>{plant.care.light}</span></li>
+            <li><strong>浇水</strong><span>{plant.care.water}</span></li>
+            <li><strong>湿度</strong><span>{plant.care.humidity}</span></li>
+            <li><strong>温度</strong><span>{plant.care.temperature}</span></li>
+            <li><strong>基质</strong><span>{plant.care.substrate}</span></li>
+          </ul>
         </Card>
 
         <Card className="content-card">
-          <CardHeader>
-            <SectionHeader badgeLabel="People" title="适合人群" />
-          </CardHeader>
-          <CardContent>
-            <p className="body-copy">{plant.people}</p>
-          </CardContent>
+          <SectionHeader badgeLabel="People" title="适合人群" />
+          <p className="body-copy">{plant.people}</p>
         </Card>
       </section>
 
       <section className="section-block">
         <Card className="content-card">
-          <CardHeader>
-            <SectionHeader badgeLabel="FAQ" title="常见问题" />
-          </CardHeader>
-          <CardContent>
-            <Accordion type="single" collapsible className="w-full">
-              {plant.faq.map((item, index) => (
-                <AccordionItem key={`${plant.slug}-${index}`} value={`${plant.slug}-${index}`}>
-                  <AccordionTrigger>{item.q}</AccordionTrigger>
-                  <AccordionContent>{item.a}</AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </CardContent>
+          <SectionHeader badgeLabel="FAQ" title="常见问题" />
+          <Accordion type="single" collapsible className="w-full">
+            {plant.faq.map((item, index) => (
+              <AccordionItem key={`${plant.slug}-${index}`} value={`${plant.slug}-${index}`}>
+                <AccordionTrigger>{item.q}</AccordionTrigger>
+                <AccordionContent>{item.a}</AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </Card>
       </section>
 
