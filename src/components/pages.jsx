@@ -6,54 +6,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator'
 import { plantFamilies, allPlants } from '@/data/plants'
 
-function Topline({ items }) {
-  return (
-    <div className="card-topline">
-      {items.map((item) => (
-        <Badge key={item} variant="secondary">{item}</Badge>
-      ))}
-    </div>
-  )
-}
-
-function SectionHeader({ badgeLabel, title, description }) {
-  return (
-    <div className="section-header">
-      <h2>{title}</h2>
-      {description ? <p>{description}</p> : null}
-    </div>
-  )
-}
-
-function StatCard({ label, value }) {
-  return (
-    <Card className="stat-card">
-      <span>{label}</span>
-      <strong>{value}</strong>
-    </Card>
-  )
-}
-
-function PlantCard({ plant, onClick }) {
-  return (
-    <Card className="plant-card is-clickable" onClick={onClick}>
-      <div className="plant-card__media">
-        <img src={plant.cover} alt={plant.nameCn} className="plant-card__image" />
-      </div>
-      <CardContent className="plant-card__body">
-        <Topline items={[plant.familyNameCn, plant.genusNameCn]} />
-        <CardTitle>{plant.nameCn}</CardTitle>
-        <CardDescription className="latin">{plant.nameLatin}</CardDescription>
-        <p>{plant.headline}</p>
-        <div className="plant-card__meta">
-          <span>难度：{plant.difficulty}</span>
-          <span>{plant.placement}</span>
-        </div>
-      </CardContent>
-    </Card>
-  )
-}
-
 function useSpeech(text) {
   const [status, setStatus] = useState('未播放')
   const [isSupported, setIsSupported] = useState(true)
@@ -113,7 +65,7 @@ function useSpeech(text) {
 
 export function HomePage({ navigate }) {
   return (
-    <main className="page page--home">
+    <main className="page">
       <header className="site-header">
         <div className="brand">
           <span className="brand-name">vivilimo</span>
@@ -121,46 +73,79 @@ export function HomePage({ navigate }) {
           <span className="brand-subtitle">热植图鉴</span>
         </div>
       </header>
-      <section className="hero-shell shell-card">
-        <div className="hero-copy">
-          <Badge>Pocket Tropical Plant Atlas</Badge>
-          <h1>把热植资料，重构成更清楚的移动端植物图鉴。</h1>
-          <p>这版重心不是堆视觉，而是让用户快速看懂一株植物值不值得养、应该放哪、怎么养。目前已整理 {allPlants.length} 个热植条目。</p>
-          <div className="hero-actions">
-            <Button onClick={() => navigate('/araceae')}>先看天南星科</Button>
-            <Button variant="secondary" onClick={() => document.getElementById('families')?.scrollIntoView({ behavior: 'smooth' })}>浏览全部科属</Button>
-          </div>
-        </div>
-        <div className="hero-panel">
-          <StatCard label="已收录植物" value={`${allPlants.length} 个`} />
-          <StatCard label="按科浏览" value={`${plantFamilies.length} 类`} />
-          <StatCard label="每个植物" value="独立 URL" />
-        </div>
-      </section>
 
-      <section className="section-block" id="families">
-        <SectionHeader badgeLabel="Families" title="按科浏览" description="先按科定位植物气质，再进入具体品种页。" />
+      <Card className="hero-card">
+        <CardHeader>
+          <Badge>Pocket Tropical Plant Atlas</Badge>
+          <CardTitle className="hero-title">把热植资料，重构成更清楚的移动端植物图鉴。</CardTitle>
+          <CardDescription>这版重心不是堆视觉，而是让用户快速看懂一株植物值不值得养、应该放哪、怎么养。目前已整理 {allPlants.length} 个热植条目。</CardDescription>
+        </CardHeader>
+        <CardContent className="hero-actions">
+          <Button onClick={() => navigate('/araceae')}>先看天南星科</Button>
+          <Button variant="secondary" onClick={() => document.getElementById('families')?.scrollIntoView({ behavior: 'smooth' })}>浏览全部科属</Button>
+        </CardContent>
+      </Card>
+
+      <div className="stats-grid">
+        <Card>
+          <CardContent className="stat-content">
+            <span className="stat-label">已收录植物</span>
+            <strong className="stat-value">{allPlants.length} 个</strong>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="stat-content">
+            <span className="stat-label">按科浏览</span>
+            <strong className="stat-value">{plantFamilies.length} 类</strong>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="stat-content">
+            <span className="stat-label">每个植物</span>
+            <strong className="stat-value">独立 URL</strong>
+          </CardContent>
+        </Card>
+      </div>
+
+      <section id="families">
+        <h2 className="section-title">按科浏览</h2>
+        <p className="section-desc">先按科定位植物气质，再进入具体品种页。</p>
         <div className="family-grid">
           {plantFamilies.map((family) => (
-            <Card key={family.slug} className={`family-card family-card--${family.heroTone} is-clickable`} onClick={() => navigate(`/${family.slug}`)}>
+            <Card key={family.slug} className="clickable" onClick={() => navigate(`/${family.slug}`)}>
               <CardHeader>
-                <Topline items={[family.nameEn]} />
+                <Badge variant="secondary">{family.nameEn}</Badge>
                 <CardTitle>{family.nameCn}</CardTitle>
                 <CardDescription>{family.summary}</CardDescription>
               </CardHeader>
-              <CardContent>
-                <span className="card-link">进入科属页 →</span>
-              </CardContent>
             </Card>
           ))}
         </div>
       </section>
 
-      <section className="section-block">
-        <SectionHeader badgeLabel="Featured" title="精选植物" description="先展示辨识度高、适合做首页入口的热植。" />
+      <section>
+        <h2 className="section-title">精选植物</h2>
+        <p className="section-desc">先展示辨识度高、适合做首页入口的热植。</p>
         <div className="plant-grid">
           {allPlants.slice(0, 8).map((plant) => (
-            <PlantCard key={plant.slug} plant={plant} onClick={() => navigate(`/${plant.familySlug}/${plant.slug}`)} />
+            <Card key={plant.slug} className="clickable" onClick={() => navigate(`/${plant.familySlug}/${plant.slug}`)}>
+              <div className="plant-image">
+                <img src={plant.cover} alt={plant.nameCn} />
+              </div>
+              <CardHeader>
+                <div className="plant-tags">
+                  <Badge variant="secondary">{plant.familyNameCn}</Badge>
+                  <Badge variant="secondary">{plant.genusNameCn}</Badge>
+                </div>
+                <CardTitle>{plant.nameCn}</CardTitle>
+                <CardDescription className="plant-latin">{plant.nameLatin}</CardDescription>
+                <p className="plant-headline">{plant.headline}</p>
+              </CardHeader>
+              <CardContent className="plant-meta">
+                <span>难度：{plant.difficulty}</span>
+                <span>{plant.placement}</span>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>
@@ -182,24 +167,23 @@ export function FamilyPage({ navigate, family }) {
           <span className="brand-subtitle">热植图鉴</span>
         </button>
       </header>
-      <section className="page-head shell-card">
-        <button className="back-link button-reset" onClick={() => navigate('/')}>← 返回首页</button>
-        <div className="section-header section-header--tight">
-          <div>
-            <Badge>{family.nameEn}</Badge>
-            <h1>{family.nameCn}</h1>
-          </div>
-          <p>{family.summary}</p>
-        </div>
-      </section>
 
-      <section className="section-block">
-        <SectionHeader badgeLabel="Genera" title="属级介绍" />
-        <div className="genus-list">
+      <Card>
+        <CardHeader>
+          <button className="back-link button-reset" onClick={() => navigate('/')}>← 返回首页</button>
+          <Badge>{family.nameEn}</Badge>
+          <CardTitle>{family.nameCn}</CardTitle>
+          <CardDescription>{family.summary}</CardDescription>
+        </CardHeader>
+      </Card>
+
+      <section>
+        <h2 className="section-title">属级介绍</h2>
+        <div className="genus-grid">
           {family.genera.map((genus) => (
-            <Card key={genus.slug} className="genus-card">
+            <Card key={genus.slug}>
               <CardHeader>
-                <Topline items={[genus.nameEn]} />
+                <Badge variant="secondary">{genus.nameEn}</Badge>
                 <CardTitle>{genus.nameCn}</CardTitle>
                 <CardDescription>{genus.intro}</CardDescription>
               </CardHeader>
@@ -208,11 +192,29 @@ export function FamilyPage({ navigate, family }) {
         </div>
       </section>
 
-      <section className="section-block">
-        <SectionHeader badgeLabel="Species" title="品种页" description="每个植物一个独立 URL，方便后续继续扩充资料。" />
+      <section>
+        <h2 className="section-title">品种页</h2>
+        <p className="section-desc">每个植物一个独立 URL，方便后续继续扩充资料。</p>
         <div className="plant-grid">
           {familyPlants.map((plant) => (
-            <PlantCard key={plant.slug} plant={plant} onClick={() => navigate(`/${plant.familySlug}/${plant.slug}`)} />
+            <Card key={plant.slug} className="clickable" onClick={() => navigate(`/${plant.familySlug}/${plant.slug}`)}>
+              <div className="plant-image">
+                <img src={plant.cover} alt={plant.nameCn} />
+              </div>
+              <CardHeader>
+                <div className="plant-tags">
+                  <Badge variant="secondary">{plant.familyNameCn}</Badge>
+                  <Badge variant="secondary">{plant.genusNameCn}</Badge>
+                </div>
+                <CardTitle>{plant.nameCn}</CardTitle>
+                <CardDescription className="plant-latin">{plant.nameLatin}</CardDescription>
+                <p className="plant-headline">{plant.headline}</p>
+              </CardHeader>
+              <CardContent className="plant-meta">
+                <span>难度：{plant.difficulty}</span>
+                <span>{plant.placement}</span>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </section>
@@ -224,7 +226,7 @@ export function PlantPage({ navigate, plant }) {
   const speech = useSpeech(plant.audioText)
 
   return (
-    <main className="page page--plant">
+    <main className="page">
       <header className="site-header">
         <button className="brand brand-link button-reset" onClick={() => navigate('/')}>
           <span className="brand-name">vivilimo</span>
@@ -232,85 +234,133 @@ export function PlantPage({ navigate, plant }) {
           <span className="brand-subtitle">热植图鉴</span>
         </button>
       </header>
-      <section className="plant-hero-card shell-card">
-        <div className="plant-hero-media"><img src={plant.cover} alt={plant.nameCn} className="plant-hero-image" /></div>
-        <div className="plant-hero-copy">
-          <button className="back-link button-reset" onClick={() => navigate(`/${plant.familySlug}`)}>← 返回{plant.familyNameCn}</button>
-          <Topline items={[plant.familyNameCn, plant.genusNameCn]} />
-          <h1>{plant.nameCn}</h1>
-          <p className="latin">{plant.nameLatin}</p>
-          <p className="lead">{plant.headline}</p>
-        </div>
-      </section>
 
-      <section className="stats-grid section-block section-block--tight">
-        <StatCard label="一句话概览" value={plant.summary} />
-        <StatCard label="养护难度" value={plant.difficulty} />
-        <StatCard label="推荐摆放" value={plant.placement} />
-      </section>
+      <Card className="plant-hero">
+        <div className="plant-hero-image">
+          <img src={plant.cover} alt={plant.nameCn} />
+        </div>
+        <CardHeader>
+          <button className="back-link button-reset" onClick={() => navigate(`/${plant.familySlug}`)}>← 返回{plant.familyNameCn}</button>
+          <div className="plant-tags">
+            <Badge variant="secondary">{plant.familyNameCn}</Badge>
+            <Badge variant="secondary">{plant.genusNameCn}</Badge>
+          </div>
+          <CardTitle>{plant.nameCn}</CardTitle>
+          <CardDescription className="plant-latin">{plant.nameLatin}</CardDescription>
+          <p className="plant-headline">{plant.headline}</p>
+        </CardHeader>
+      </Card>
+
+      <div className="stats-grid">
+        <Card>
+          <CardContent className="stat-content">
+            <span className="stat-label">一句话概览</span>
+            <strong className="stat-value">{plant.summary}</strong>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="stat-content">
+            <span className="stat-label">养护难度</span>
+            <strong className="stat-value">{plant.difficulty}</strong>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="stat-content">
+            <span className="stat-label">推荐摆放</span>
+            <strong className="stat-value">{plant.placement}</strong>
+          </CardContent>
+        </Card>
+      </div>
 
       <div className="voice-fab">
         <Button 
           size="icon" 
-          className="voice-fab__button" 
+          className="voice-fab-button" 
           onClick={speech.play}
           title={speech.isPlaying ? '停止语音' : '播放语音介绍'}
         >
           {speech.isPlaying ? '⏸' : '▶'}
         </Button>
         {speech.status !== '未播放' && (
-          <span className="voice-fab__status">{speech.status}</span>
+          <span className="voice-fab-status">{speech.status}</span>
         )}
       </div>
 
-      <section className="section-block">
-        <Card className="content-card">
-          <SectionHeader badgeLabel="Overview" title="植物介绍" />
-          <p className="body-copy">{plant.description}</p>
-        </Card>
-      </section>
+      <Card>
+        <CardHeader>
+          <CardTitle>植物介绍</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p>{plant.description}</p>
+        </CardContent>
+      </Card>
 
-      <section className="section-block two-column">
-        <Card className="content-card">
-          <SectionHeader badgeLabel="Care" title="养护要点" />
-          <ul className="care-list">
-            <li><strong>光照</strong><span>{plant.care.light}</span></li>
-            <li><strong>浇水</strong><span>{plant.care.water}</span></li>
-            <li><strong>湿度</strong><span>{plant.care.humidity}</span></li>
-            <li><strong>温度</strong><span>{plant.care.temperature}</span></li>
-            <li><strong>基质</strong><span>{plant.care.substrate}</span></li>
-          </ul>
+      <div className="two-column">
+        <Card>
+          <CardHeader>
+            <CardTitle>养护要点</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="care-list">
+              <div className="care-item">
+                <strong>光照</strong>
+                <span>{plant.care.light}</span>
+              </div>
+              <div className="care-item">
+                <strong>浇水</strong>
+                <span>{plant.care.water}</span>
+              </div>
+              <div className="care-item">
+                <strong>湿度</strong>
+                <span>{plant.care.humidity}</span>
+              </div>
+              <div className="care-item">
+                <strong>温度</strong>
+                <span>{plant.care.temperature}</span>
+              </div>
+              <div className="care-item">
+                <strong>基质</strong>
+                <span>{plant.care.substrate}</span>
+              </div>
+            </div>
+          </CardContent>
         </Card>
 
-        <Card className="content-card">
-          <SectionHeader badgeLabel="People" title="适合人群" />
-          <p className="body-copy">{plant.people}</p>
+        <Card>
+          <CardHeader>
+            <CardTitle>适合人群</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p>{plant.people}</p>
+          </CardContent>
         </Card>
-      </section>
+      </div>
 
-      <section className="section-block">
-        <Card className="content-card">
-          <SectionHeader badgeLabel="FAQ" title="常见问题" />
-          <Accordion type="single" collapsible className="w-full">
+      <Card>
+        <CardHeader>
+          <CardTitle>常见问题</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Accordion type="single" collapsible>
             {plant.faq.map((item, index) => (
-              <AccordionItem key={`${plant.slug}-${index}`} value={`${plant.slug}-${index}`}>
+              <AccordionItem key={index} value={`item-${index}`}>
                 <AccordionTrigger>{item.q}</AccordionTrigger>
                 <AccordionContent>{item.a}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
-        </Card>
-      </section>
+        </CardContent>
+      </Card>
 
-      <Separator className="my-4" />
+      <Separator />
 
-      <section className="section-block">
-        <SectionHeader badgeLabel="Gallery" title="植物图片" />
+      <section>
+        <h2 className="section-title">植物图片</h2>
         <div className="gallery-grid">
           {plant.images.map((image, index) => (
-            <Card key={`${plant.slug}-${index}`} className="gallery-card">
+            <div key={index} className="gallery-item">
               <img src={image} alt={plant.nameCn} />
-            </Card>
+            </div>
           ))}
         </div>
       </section>
@@ -320,8 +370,8 @@ export function PlantPage({ navigate, plant }) {
 
 export function NotFoundPage({ navigate }) {
   return (
-    <main className="page page--center">
-      <Card className="empty-state">
+    <main className="page page-center">
+      <Card className="empty-card">
         <CardHeader>
           <Badge>404</Badge>
           <CardTitle>这个植物页面还没长出来</CardTitle>
