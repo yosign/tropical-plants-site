@@ -6,22 +6,34 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Separator } from '@/components/ui/separator'
 import { plantFamilies, allPlants } from '@/data/plants'
 
-function VoicePlayer({ text }) {
+function VoicePlayer({ text, audioSrc }) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isSupported, setIsSupported] = useState(true)
   const [tooltipText, setTooltipText] = useState('正在播放')
   const [showTooltip, setShowTooltip] = useState(false)
+  const [hasAudioFile, setHasAudioFile] = useState(false)
   const isCancellingRef = useRef(false)
   const tooltipTimerRef = useRef(null)
+  const audioRef = useRef(null)
 
   useEffect(() => {
     const supported = typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window
     setIsSupported(supported)
 
+    if (audioSrc) {
+      fetch(audioSrc, { method: 'HEAD' })
+        .then((res) => setHasAudioFile(res.ok))
+        .catch(() => setHasAudioFile(false))
+    }
+
     return () => {
       if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current)
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
     }
-  }, [])
+  }, [audioSrc])
 
   const showMessage = (message) => {
     setTooltipText(message)
@@ -30,17 +42,49 @@ function VoicePlayer({ text }) {
     tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 2200)
   }
 
-  const togglePlay = () => {
+  const stopAll = () => {
+    isCancellingRef.current = true
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.currentTime = 0
+    }
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel()
+    }
+    setIsPlaying(false)
+    setShowTooltip(false)
+  }
+
+  const playAudioFile = async () => {
+    if (!audioSrc) return false
+    try {
+      if (!audioRef.current) {
+        audioRef.current = new Audio(audioSrc)
+        audioRef.current.preload = 'auto'
+        audioRef.current.onplay = () => {
+          setIsPlaying(true)
+          setTooltipText('正在播放')
+          setShowTooltip(true)
+        }
+        audioRef.current.onended = () => {
+          setIsPlaying(false)
+          setShowTooltip(false)
+        }
+        audioRef.current.onerror = () => {
+          setIsPlaying(false)
+          showMessage('音频加载失败')
+        }
+      }
+      await audioRef.current.play()
+      return true
+    } catch {
+      return false
+    }
+  }
+
+  const playSpeech = () => {
     if (!isSupported) {
       showMessage('当前浏览器不支持语音播放')
-      return
-    }
-
-    if (isPlaying) {
-      isCancellingRef.current = true
-      window.speechSynthesis.cancel()
-      setIsPlaying(false)
-      setShowTooltip(false)
       return
     }
 
@@ -75,6 +119,20 @@ function VoicePlayer({ text }) {
       setIsPlaying(false)
       showMessage('当前浏览器暂不支持语音播放')
     }
+  }
+
+  const togglePlay = async () => {
+    if (isPlaying) {
+      stopAll()
+      return
+    }
+
+    if (hasAudioFile) {
+      const ok = await playAudioFile()
+      if (ok) return
+    }
+
+    playSpeech()
   }
 
   return (
@@ -306,7 +364,7 @@ export function PlantPage({ navigate, plant }) {
         </Card>
       </div>
 
-      <VoicePlayer text={plant.audioText} />
+      <VoicePlayer text={plant.audioText} audioSrc={plant.audioSrc} />
 
       <Card>
         <CardHeader>

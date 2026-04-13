@@ -84,6 +84,7 @@ export const allPlants = plantFamilies.flatMap((family) =>
       genusIntro: genus.intro,
       familySummary: family.summary,
       heroTone: family.heroTone,
+      audioSrc: `/audio/${family.slug}/${plant.slug}.mp3`,
     })),
   ),
 )
