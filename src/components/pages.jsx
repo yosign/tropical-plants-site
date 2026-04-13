@@ -9,52 +9,73 @@ import { plantFamilies, allPlants } from '@/data/plants'
 function VoicePlayer({ text }) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isSupported, setIsSupported] = useState(true)
+  const [tooltipText, setTooltipText] = useState('正在播放')
   const [showTooltip, setShowTooltip] = useState(false)
   const isCancellingRef = useRef(false)
+  const tooltipTimerRef = useRef(null)
 
   useEffect(() => {
-    const supported = 'speechSynthesis' in window
+    const supported = typeof window !== 'undefined' && 'speechSynthesis' in window && 'SpeechSynthesisUtterance' in window
     setIsSupported(supported)
+
+    return () => {
+      if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current)
+    }
   }, [])
 
+  const showMessage = (message) => {
+    setTooltipText(message)
+    setShowTooltip(true)
+    if (tooltipTimerRef.current) clearTimeout(tooltipTimerRef.current)
+    tooltipTimerRef.current = setTimeout(() => setShowTooltip(false), 2200)
+  }
+
   const togglePlay = () => {
-    if (!isSupported) return
-    
+    if (!isSupported) {
+      showMessage('当前浏览器不支持语音播放')
+      return
+    }
+
     if (isPlaying) {
       isCancellingRef.current = true
       window.speechSynthesis.cancel()
       setIsPlaying(false)
+      setShowTooltip(false)
       return
     }
-    
-    isCancellingRef.current = false
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = 'zh-CN'
-    utterance.rate = 1
-    utterance.pitch = 1
-    
-    utterance.onstart = () => {
-      setIsPlaying(true)
-      setShowTooltip(true)
-    }
-    utterance.onend = () => {
-      if (!isCancellingRef.current) {
-        setIsPlaying(false)
-        setShowTooltip(false)
-      }
-    }
-    utterance.onerror = () => {
-      if (!isCancellingRef.current) {
-        setIsPlaying(false)
-        setShowTooltip(false)
-      }
-    }
-    
-    window.speechSynthesis.cancel()
-    window.speechSynthesis.speak(utterance)
-  }
 
-  if (!isSupported) return null
+    try {
+      isCancellingRef.current = false
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.lang = 'zh-CN'
+      utterance.rate = 1
+      utterance.pitch = 1
+
+      utterance.onstart = () => {
+        setIsPlaying(true)
+        setTooltipText('正在播放')
+        setShowTooltip(true)
+      }
+      utterance.onend = () => {
+        if (!isCancellingRef.current) {
+          setIsPlaying(false)
+          setShowTooltip(false)
+        }
+      }
+      utterance.onerror = () => {
+        if (!isCancellingRef.current) {
+          setIsPlaying(false)
+          showMessage('当前浏览器暂不支持语音播放')
+        }
+      }
+
+      window.speechSynthesis.cancel()
+      window.speechSynthesis.speak(utterance)
+    } catch {
+      setIsPlaying(false)
+      showMessage('当前浏览器暂不支持语音播放')
+    }
+  }
 
   return (
     <div className="voice-fab">
@@ -63,6 +84,7 @@ function VoicePlayer({ text }) {
         onClick={togglePlay}
         className="voice-fab-btn"
         title={isPlaying ? '正在播放，点击停止' : '播放语音介绍'}
+        aria-label={isPlaying ? '停止播放语音介绍' : '播放语音介绍'}
       >
         {isPlaying ? (
           <span className="voice-icon">⏸</span>
@@ -70,8 +92,8 @@ function VoicePlayer({ text }) {
           <span className="voice-icon">▶</span>
         )}
       </Button>
-      {showTooltip && isPlaying && (
-        <div className="voice-tooltip">正在播放</div>
+      {showTooltip && (
+        <div className="voice-tooltip">{tooltipText}</div>
       )}
     </div>
   )
